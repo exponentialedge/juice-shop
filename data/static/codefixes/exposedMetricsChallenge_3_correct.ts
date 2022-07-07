@@ -1,6 +1,4 @@
 /* Serve metrics */
-import security from "./lib/insecurity"
-
 const Metrics = metrics.observeMetrics()
 const metricsUpdateLoop = Metrics.updateLoop
 app.get('/metrics', security.isAdmin(), metrics.serveMetrics())
@@ -11,7 +9,7 @@ const customizeApplication = require('./lib/startup/customizeApplication')
 
 export async function start (readyCallback: Function) {
   const datacreatorEnd = startupGauge.startTimer({ task: 'datacreator' })
-  await models.sequelize.sync({ force: true })
+  await sequelize.sync({ force: true })
   await datacreator()
   datacreatorEnd()
   const port = process.env.PORT ?? config.get('server.port')
